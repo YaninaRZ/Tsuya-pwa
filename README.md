@@ -1,16 +1,167 @@
-# React + Vite
+# Tsuya 🎯
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> PWA React — Habit tracker gamifié
 
-Currently, two official plugins are available:
+![React](https://img.shields.io/badge/React-19-blue) ![Vite](https://img.shields.io/badge/Vite-8-purple) ![Tailwind](https://img.shields.io/badge/Tailwind-4-teal) ![PWA](https://img.shields.io/badge/PWA-ready-green)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🚀 Démarrage
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prérequis
 
-## Expanding the ESLint configuration
+- **Node.js** `>=18.0.0`
+- **npm** `>=9.0.0`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+# Installation
+npm install --legacy-peer-deps
+
+# Développement
+npm run dev
+
+# Build production
+npm run build
+
+# Prévisualisation
+npm run preview
+```
+
+---
+
+## ✨ Fonctionnalités
+
+- **Onboarding** — Slider animé avec swipe mobile, transitions fluides
+- **Authentification** — Login / Register avec tabs, boutons sociaux (Apple, Google, Facebook)
+- **Setup utilisateur** — Sélection du genre + choix des premières habitudes
+- **PWA** — Installable sur mobile et desktop, service worker, manifest
+- **Responsive** — Mobile first, adapté desktop 50/50
+
+---
+
+## 🛠 Stack technique
+
+| Technologie     | Version | Usage      |
+| --------------- | ------- | ---------- |
+| React           | 19      | UI         |
+| Vite            | 8       | Bundler    |
+| Tailwind CSS    | 4       | Styles     |
+| React Router    | 7       | Navigation |
+| vite-plugin-pwa | 1.2     | PWA        |
+
+---
+
+## 📁 Structure du projet
+
+```
+src/
+├── components/
+│   ├── onboarding/     # HabitCard, ChallengeCard, HabitRow, SocialButtons, StepIndicator
+│   └── setup/          # GenderCard, HabitCard, CategoryCard
+├── pages/
+│   ├── onboarding/     # Splash, OnboardingSlider
+│   ├── auth/           # Auth (login + register)
+│   └── setup/          # Gender, HabitPicker
+├── lib/
+│   └── utils.js
+├── App.jsx             # Routes
+└── main.jsx
+```
+
+---
+
+## 🎨 Routes
+
+| Chemin               | Page                     |
+| -------------------- | ------------------------ |
+| `/onboarding`        | Splash screen            |
+| `/onboarding/slides` | Slider onboarding        |
+| `/auth`              | Login / Register         |
+| `/setup/gender`      | Choix du genre           |
+| `/setup/habits`      | Choix des habitudes      |
+| `/home`              | App principale (à venir) |
+
+---
+
+## 🎨 Charte couleurs
+
+| Couleur        | Hex       | Usage                |
+| -------------- | --------- | -------------------- |
+| Bleu foncé     | `#1A4B8C` | Titres, contrastes   |
+| Bleu principal | `#3A81C2` | Boutons, accents     |
+| Bleu clair     | `#8CC5E8` | Éléments secondaires |
+| Blanc          | `#FFFFFF` | Fond principal       |
+| Gris clair     | `#F5F5F5` | Fond secondaire      |
+
+---
+
+## 🔧 Configuration
+
+```js
+// vite.config.js — alias path
+resolve: {
+  alias: { '@': path.resolve(__dirname, './src') }
+}
+```
+
+```json
+// jsconfig.json — autocomplétion VS Code
+{
+  "compilerOptions": {
+    "paths": { "@/*": ["src/*"] }
+  }
+}
+```
+
+---
+
+## 🚢 Déploiement
+
+### Vercel (recommandé)
+
+```bash
+npm i -g vercel
+vercel
+```
+
+Ou connecte ton repo sur [vercel.com](https://vercel.com) pour un déploiement automatique.
+
+### Netlify
+
+Crée `netlify.toml` à la racine :
+
+```toml
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+```
+
+---
+
+## 📝 Scripts
+
+```bash
+npm run dev      # Serveur de développement
+npm run build    # Build production
+npm run preview  # Prévisualiser le build
+npm run lint     # Linting ESLint
+```
+
+---
+
+## 📌 Notes importantes
+
+> ⚠️ Utiliser `--legacy-peer-deps` pour toutes les installations npm — incompatibilité entre `vite-plugin-pwa` et Vite 8.
+
+```bash
+npm install <package> --legacy-peer-deps
+```
+
+---
+
+_Built with ❤️ by Yanina_
