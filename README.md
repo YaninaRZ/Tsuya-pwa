@@ -112,46 +112,6 @@ resolve: {
   }
 }
 ```
-
----
-
-## 🚢 Déploiement
-
-### Vercel (recommandé)
-
-```bash
-npm i -g vercel
-vercel
-```
-
-Ou connecte ton repo sur [vercel.com](https://vercel.com) pour un déploiement automatique.
-
-### Netlify
-
-Crée `netlify.toml` à la racine :
-
-```toml
-[build]
-  command = "npm run build"
-  publish = "dist"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-```
-
----
-
-## 📝 Scripts
-
-```bash
-npm run dev      # Serveur de développement
-npm run build    # Build production
-npm run preview  # Prévisualiser le build
-npm run lint     # Linting ESLint
-```
-
 ---
 
 ## 📌 Notes importantes
