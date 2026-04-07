@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  /* Animation pour le Marquee */
+  --animate-marquee: marquee var(--duration) linear infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-100% - var(--gap))); }
+  }
+}
+
+/* Utilitaires pour les couleurs (Aceternity en a souvent besoin pour ses effets de gradient) */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    /* Tu peux ajouter d'autres variables ici si nécessaire */
+  }
+}
