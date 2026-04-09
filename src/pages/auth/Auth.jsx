@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { signIn, signUp } from '@/lib/auth'
 
 const AppleIcon = () => (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -23,6 +24,7 @@ const FacebookIcon = () => (
 )
 
 function Input({ label, type = 'text', placeholder, value, onChange }) {
+
     return (
         <div className="flex flex-col gap-1.5">
             <label className="text-sm font-medium" style={{ color: '#444' }}>{label}</label>
@@ -49,20 +51,48 @@ export default function Auth() {
     const navigate = useNavigate()
     const [tab, setTab] = useState('login')
     const [form, setForm] = useState({ name: '', email: '', password: '' })
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
 
     const update = (field) => (e) => setForm({ ...form, [field]: e.target.value })
 
-    const handleSubmit = () => {
-        navigate('/setup/gender')
+    const handleSubmit = async () => {
+        setError(null)
+        setLoading(true)
+
+        if (tab === 'login') {
+            const { error } = await signIn({
+                email: form.email,
+                password: form.password,
+            })
+            if (error) {
+                setError(error.message)
+                setLoading(false)
+                return
+            }
+            navigate('/home')
+
+        } else {
+            const { error } = await signUp({
+                name: form.name,
+                email: form.email,
+                password: form.password,
+            })
+            if (error) {
+                setError(error.message)
+                setLoading(false)
+                return
+            }
+            navigate('/setup/gender')
+        }
+
+        setLoading(false)
     }
 
     return (
         <div
             className="flex w-full overflow-hidden"
-            style={{
-                background: 'linear-gradient(160deg, #1A4B8C 0%, #3A81C2 100%)',
-                height: '100vh',
-            }}
+            style={{ background: 'linear-gradient(160deg, #1A4B8C 0%, #3A81C2 100%)', height: '100vh' }}
         >
             <div className="flex flex-col lg:flex-row w-full h-full">
 
@@ -99,10 +129,7 @@ export default function Auth() {
                 <div className="w-full lg:w-1/2 h-full flex items-center justify-center lg:p-16">
                     <div
                         className="w-full lg:max-w-md lg:rounded-3xl p-8 flex flex-col gap-5 h-full lg:h-auto justify-center"
-                        style={{
-                            background: '#fff',
-                            boxShadow: '0 20px 60px rgba(0,0,0,0.1)',
-                        }}
+                        style={{ background: '#fff', boxShadow: '0 20px 60px rgba(0,0,0,0.1)' }}
                     >
 
                         {/* Logo mobile */}
@@ -118,7 +145,7 @@ export default function Auth() {
                             {['login', 'register'].map((t) => (
                                 <button
                                     key={t}
-                                    onClick={() => setTab(t)}
+                                    onClick={() => { setTab(t); setError(null) }}
                                     className="flex-1 py-2.5 rounded-xl text-sm font-medium transition-all"
                                     style={{
                                         background: tab === t ? '#fff' : 'transparent',
@@ -143,6 +170,16 @@ export default function Auth() {
                             </p>
                         </div>
 
+                        {/* Erreur */}
+                        {error && (
+                            <div
+                                className="px-4 py-3 rounded-xl text-sm"
+                                style={{ background: '#FEE2E2', color: '#DC2626' }}
+                            >
+                                {error}
+                            </div>
+                        )}
+
                         {/* Champs */}
                         <div className="flex flex-col gap-4">
                             <div style={{
@@ -165,10 +202,23 @@ export default function Auth() {
                         {/* Bouton principal */}
                         <button
                             onClick={handleSubmit}
-                            className="w-full py-4 rounded-2xl text-base font-semibold text-white"
-                            style={{ background: 'linear-gradient(135deg, #1A4B8C, #3A81C2)' }}
+                            disabled={loading}
+                            className="w-full py-4 rounded-2xl text-base font-semibold text-white flex items-center justify-center gap-2"
+                            style={{
+                                background: loading ? '#93b5d8' : 'linear-gradient(135deg, #1A4B8C, #3A81C2)',
+                                cursor: loading ? 'not-allowed' : 'pointer',
+                            }}
                         >
-                            {tab === 'login' ? 'Se connecter' : "S'inscrire"}
+                            {loading ? (
+                                <>
+                                    <div
+                                        className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin"
+                                    />
+                                    Chargement...
+                                </>
+                            ) : (
+                                tab === 'login' ? 'Se connecter' : "S'inscrire"
+                            )}
                         </button>
 
                         {/* Séparateur */}
