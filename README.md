@@ -112,7 +112,6 @@ resolve: {
   }
 }
 ```
-
 ---
 
 ## 📌 Notes importantes
