@@ -5,6 +5,10 @@ import Auth from '@/pages/auth/Auth'
 import Gender from '@/pages/setup/Gender'
 import HabitPicker from '@/pages/setup/HabitPicker'
 import Home from '@/pages/home/Home'
+import ForgotPassword from '@/pages/auth/ForgotPassword'
+import ResetPassword from '@/pages/auth/ResetPassword'
+import CGU from '@/pages/legal/CGU'
+import PrivacyPolicy from '@/pages/legal/PrivacyPolicy'
 export default function App() {
   return (
     <div className="min-h-screen">
@@ -16,6 +20,10 @@ export default function App() {
         <Route path="/setup/gender" element={<Gender />} />
         <Route path="/setup/habits" element={<HabitPicker />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/cgu" element={<CGU />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
       </Routes>
     </div>
   )

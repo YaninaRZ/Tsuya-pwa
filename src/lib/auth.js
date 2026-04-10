@@ -6,6 +6,9 @@ export const signUp = async ({ name, email, password }) => {
     password,
     options: { data: { name } },
   });
+  if (data?.user) {
+    localStorage.setItem("tsuya_user_id", data.user.id);
+  }
   return { data, error };
 };
 
@@ -14,10 +17,20 @@ export const signIn = async ({ email, password }) => {
     email,
     password,
   });
+  if (data?.user) {
+    localStorage.setItem("tsuya_user_id", data.user.id);
+  }
   return { data, error };
+};
+export const resetPassword = async (email) => {
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/reset-password`,
+  });
+  return { error };
 };
 
 export const signOut = async () => {
+  localStorage.removeItem("tsuya_user_id");
   const { error } = await supabase.auth.signOut();
   return { error };
 };
@@ -30,22 +43,25 @@ export const getUser = async () => {
 };
 
 export const saveGender = async (gender) => {
-  const user = await getUser();
+  const userId = localStorage.getItem("tsuya_user_id");
+  if (!userId) return { error: "Non connecté" };
+
   const { error } = await supabase
     .from("profiles")
     .update({ gender })
-    .eq("id", user.id);
+    .eq("id", userId);
   return { error };
 };
 
 export const saveHabits = async (habits) => {
-  const user = await getUser();
+  const userId = localStorage.getItem("tsuya_user_id");
+  if (!userId) return { error: "Non connecté" };
 
-  await supabase.from("habits").delete().eq("user_id", user.id);
+  await supabase.from("habits").delete().eq("user_id", userId);
 
   const { error } = await supabase.from("habits").insert(
     habits.map((h) => ({
-      user_id: user.id,
+      user_id: userId,
       label: h.label,
       emoji: h.emoji,
     })),
