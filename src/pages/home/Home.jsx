@@ -24,10 +24,7 @@ export default function Home() {
             const u = await getUser()
             if (!u) { navigate('/auth'); return }
             setUser(u)
-            const { data } = await supabase
-                .from('habits')
-                .select('*')
-                .eq('user_id', u.id)
+            const { data } = await supabase.from('habits').select('*').eq('user_id', u.id)
             setHabits(data || [])
             setLoading(false)
         }
@@ -36,35 +33,24 @@ export default function Home() {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-screen" style={{ background: '#F5F7FF' }}>
-                <div
-                    className="w-8 h-8 rounded-full border-4 animate-spin"
-                    style={{ borderColor: '#3A81C2', borderTopColor: 'transparent' }}
-                />
+            <div className="flex items-center justify-center min-h-screen" style={{ background: '#111111' }}>
+                <div className="w-6 h-6 rounded-full border-2 animate-spin" style={{ borderColor: '#C0C0C0', borderTopColor: 'transparent' }} />
             </div>
         )
     }
 
     return (
-        <div className="min-h-screen" style={{ background: '#F5F7FF' }}>
-
+        <div className="min-h-screen" style={{ background: '#111111' }}>
             <BottomNav />
-
-            {/* Contenu — plein écran mobile, décalé desktop */}
             <div className="lg:ml-64">
-                <div className="flex flex-col gap-5 pb-28 lg:pb-10 lg:max-w-3xl lg:mx-auto lg:px-8 lg:pt-8">
+                <div className="flex flex-col gap-6 pb-28 lg:pb-10 lg:max-w-3xl lg:mx-auto lg:px-8 lg:pt-8">
                     <Header user={user} />
                     <CalendarStrip />
                     <ProgressBanner completed={done.length} total={habits.length} />
                     <ChallengeSection />
-                    <HabitList
-                        habits={habits}
-                        done={done}
-                        onToggle={toggleDone}
-                    />
+                    <HabitList habits={habits} done={done} onToggle={toggleDone} />
                 </div>
             </div>
-
         </div>
     )
 }

@@ -1,43 +1,43 @@
-export default function HabitItem({ emoji, label, subtitle, done, onToggle }) {
+export default function HabitItem({ emoji, label, done, onToggle }) {
     return (
         <div
-            className="flex items-center gap-4 px-4 py-4 rounded-2xl"
-            style={{ background: '#fff' }}
+            className="flex items-center gap-4 px-4 py-4 rounded-2xl transition-all"
+            style={{
+                background: done ? 'rgba(192,192,192,0.08)' : 'rgba(255,255,255,0.05)',
+                border: done ? '1px solid rgba(192,192,192,0.2)' : '1px solid rgba(255,255,255,0.07)',
+            }}
         >
             <div
-                className="w-11 h-11 rounded-2xl flex items-center justify-center text-xl flex-shrink-0"
-                style={{
-                    background: done ? '#E8F4F8' : '#F5F7FF',
-                    border: `2px solid ${done ? '#8CC5E8' : '#e5e7eb'}`,
-                }}
+                className="w-11 h-11 flex items-center justify-center text-xl flex-shrink-0"
+                style={{ background: 'rgba(255,255,255,0.07)', borderRadius: 12 }}
             >
                 {emoji}
             </div>
             <div className="flex-1">
                 <p
-                    className="text-sm font-semibold"
+                    className="text-sm font-medium text-white"
                     style={{
-                        color: '#1A1A2E',
+                        letterSpacing: '0.5px',
+                        opacity: done ? 0.4 : 1,
                         textDecoration: done ? 'line-through' : 'none',
-                        opacity: done ? 0.5 : 1,
                     }}
                 >
-                    {label}
+                    {label.toUpperCase()}
                 </p>
-                <p className="text-xs mt-0.5" style={{ color: '#aaa' }}>{subtitle}</p>
+                <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.25)', letterSpacing: '1px' }}>
+                    {done ? 'COMPLÉTÉ' : 'À FAIRE'}
+                </p>
             </div>
             <button
                 onClick={onToggle}
-                className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all"
+                className="w-7 h-7 flex items-center justify-center flex-shrink-0 transition-all"
                 style={{
-                    background: done ? '#3A81C2' : '#fff',
-                    border: done ? 'none' : '2px solid #e5e7eb',
+                    background: done ? '#C0C0C0' : 'transparent',
+                    border: done ? 'none' : '1px solid rgba(255,255,255,0.15)',
+                    borderRadius: 8,
                 }}
             >
-                {done
-                    ? <span style={{ color: '#fff', fontSize: 12 }}>✓</span>
-                    : <span style={{ color: '#aaa', fontSize: 18 }}>+</span>
-                }
+                {done && <span style={{ color: '#0A0A0A', fontSize: 11 }}>✓</span>}
             </button>
         </div>
     )

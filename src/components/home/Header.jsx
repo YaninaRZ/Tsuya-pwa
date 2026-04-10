@@ -5,69 +5,69 @@ export default function Header({ user }) {
     const name = user?.user_metadata?.name || 'Toi'
 
     return (
-        <div className="flex flex-col px-5 pt-6 gap-3">
+        <div className="flex flex-col px-5 pt-8 gap-4">
             {/* Top row */}
             <div className="flex items-center justify-between">
-                <div
-                    className="w-10 h-10 rounded-2xl flex items-center justify-center"
-                    style={{ background: '#fff', border: '1px solid #e5e7eb' }}
+                <span
+                    className="text-sm font-bold text-white"
+                    style={{ fontFamily: 'Georgia, serif', letterSpacing: '4px' }}
                 >
-                    <span style={{ fontSize: 18 }}>📅</span>
+                    TSUYA
+                </span>
+                <div className="flex items-center gap-3">
+                    <button
+                        className="w-9 h-9 rounded-xl flex items-center justify-center relative"
+                        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
+                    >
+                        <span style={{ fontSize: 16 }}>🔔</span>
+                        <div className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full" style={{ background: '#C0C0C0' }} />
+                    </button>
+                    <button
+                        onClick={() => navigate('/profile')}
+                        className="w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold"
+                        style={{
+                            background: 'rgba(192,192,192,0.15)',
+                            border: '1px solid rgba(192,192,192,0.3)',
+                            color: '#C0C0C0',
+                            letterSpacing: '1px',
+                        }}
+                    >
+                        {name.charAt(0).toUpperCase()}
+                    </button>
                 </div>
-                <button
-                    className="w-10 h-10 rounded-2xl flex items-center justify-center relative"
-                    style={{ background: '#fff', border: '1px solid #e5e7eb' }}
-                >
-                    <span style={{ fontSize: 18 }}>🔔</span>
-                    <div
-                        className="absolute top-2 right-2 w-2 h-2 rounded-full"
-                        style={{ background: '#EF4444' }}
-                    />
-                </button>
             </div>
 
             {/* Greeting */}
-            <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-2xl font-bold" style={{ color: '#1A1A2E' }}>
-                        Hi, {name} 👋
-                    </h1>
-                    <p className="text-sm" style={{ color: '#888' }}>
-                        Let's make habits together!
-                    </p>
-                </div>
-                <button
-                    onClick={() => navigate('/profile')}
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center text-xl font-bold"
-                    style={{ background: 'linear-gradient(135deg, #1A4B8C, #3A81C2)', color: '#fff' }}
+            <div>
+                <p className="text-xs mb-1" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '2px' }}>
+                    BONJOUR,
+                </p>
+                <h1
+                    className="text-3xl font-bold text-white"
+                    style={{ fontFamily: 'Georgia, serif' }}
                 >
-                    {name.charAt(0).toUpperCase()}
-                </button>
+                    {name.toUpperCase()}.
+                </h1>
+                <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.35)', letterSpacing: '1px' }}>
+                    WHAT WILL YOU ACCOMPLISH TODAY?
+                </p>
             </div>
 
-            {/* Tabs Today / Clubs */}
-            <div
-                className="flex rounded-2xl p-1"
-                style={{ background: '#e5e7eb' }}
-            >
-                <button
-                    className="flex-1 py-2 rounded-xl text-sm font-semibold"
-                    style={{ background: '#fff', color: '#3A81C2' }}
-                >
-                    Today
-                </button>
-                <button
-                    className="flex-1 py-2 rounded-xl text-sm font-medium flex items-center justify-center gap-2"
-                    style={{ background: 'transparent', color: '#888' }}
-                >
-                    Clubs
-                    <span
-                        className="px-1.5 py-0.5 rounded-full text-xs"
-                        style={{ background: '#ddd', color: '#666' }}
+            {/* Tabs */}
+            <div className="flex gap-6 border-b" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
+                {['TODAY', 'CLUBS'].map((t, i) => (
+                    <button
+                        key={t}
+                        className="pb-3 text-xs font-medium"
+                        style={{
+                            color: i === 0 ? '#fff' : 'rgba(255,255,255,0.3)',
+                            borderBottom: i === 0 ? '1px solid #C0C0C0' : '1px solid transparent',
+                            letterSpacing: '2px',
+                        }}
                     >
-                        2
-                    </span>
-                </button>
+                        {t}
+                    </button>
+                ))}
             </div>
         </div>
     )

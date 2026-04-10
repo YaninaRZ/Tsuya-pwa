@@ -1,16 +1,19 @@
 import { useNavigate } from 'react-router-dom'
 import HabitItem from './HabitItem'
+
 export default function HabitList({ habits, done = [], onToggle }) {
     const navigate = useNavigate()
 
     return (
         <div className="flex flex-col gap-3 px-5">
             <div className="flex items-center justify-between">
-                <p className="text-base font-bold" style={{ color: '#1A1A2E' }}>Habits</p>
+                <p className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.4)', letterSpacing: '2px' }}>
+                    HABITS
+                </p>
                 <button
                     onClick={() => navigate('/habits')}
-                    className="text-xs font-semibold"
-                    style={{ color: '#3A81C2' }}
+                    className="text-xs"
+                    style={{ color: '#C0C0C0', letterSpacing: '1px' }}
                 >
                     VIEW ALL
                 </button>
@@ -18,23 +21,26 @@ export default function HabitList({ habits, done = [], onToggle }) {
 
             {habits.length === 0 ? (
                 <div
-                    className="text-center py-8 rounded-2xl"
-                    style={{ background: '#fff', color: '#aaa' }}
+                    className="text-center py-12 rounded-2xl"
+                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}
                 >
-                    <p className="text-3xl mb-2">🎯</p>
-                    <p className="text-sm">Aucune habitude pour l'instant</p>
+                    <p className="text-2xl mb-3">🎯</p>
+                    <p className="text-xs" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '2px' }}>
+                        AUCUNE HABITUDE
+                    </p>
                 </div>
             ) : (
-                habits.map(h => (
-                    <HabitItem
-                        key={h.id}
-                        emoji={h.emoji || '⭐'}
-                        label={h.label}
-                        subtitle="0/1 TIMES"
-                        done={done.includes(h.id)}
-                        onToggle={() => onToggle(h.id)}
-                    />
-                ))
+                <div className="flex flex-col gap-2">
+                    {habits.map(h => (
+                        <HabitItem
+                            key={h.id}
+                            emoji={h.emoji || '⭐'}
+                            label={h.label}
+                            done={done.includes(h.id)}
+                            onToggle={() => onToggle(h.id)}
+                        />
+                    ))}
+                </div>
             )}
         </div>
     )

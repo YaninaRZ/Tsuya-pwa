@@ -40,21 +40,26 @@ export default function CalendarStrip() {
                         key={num}
                         data-day={num}
                         onClick={() => setSelected(num)}
-                        className="flex flex-col items-center gap-1 py-3 px-2 rounded-2xl flex-shrink-0 min-w-12 transition-all"
+                        className="flex flex-col items-center gap-1 py-3 px-3 flex-shrink-0 min-w-12 transition-all"
                         style={{
-                            background: isSelected ? '#3A81C2' : '#fff',
-                            border: isToday && !isSelected ? '2px solid #3A81C2' : '2px solid transparent',
+                            background: isSelected ? '#C0C0C0' : 'rgba(255,255,255,0.05)',
+                            border: isToday && !isSelected ? '1px solid rgba(192,192,192,0.3)' : '1px solid transparent',
+                            borderRadius: 14,
                         }}
                     >
                         <span
-                            className="text-base font-bold"
-                            style={{ color: isSelected ? '#fff' : '#1A1A2E' }}
+                            className="text-sm font-bold"
+                            style={{ color: isSelected ? '#0A0A0A' : '#fff' }}
                         >
                             {num}
                         </span>
                         <span
                             className="text-xs"
-                            style={{ color: isSelected ? 'rgba(255,255,255,0.8)' : '#aaa' }}
+                            style={{
+                                color: isSelected ? 'rgba(10,10,10,0.6)' : 'rgba(255,255,255,0.3)',
+                                letterSpacing: '1px',
+                                fontSize: 9,
+                            }}
                         >
                             {day}
                         </span>

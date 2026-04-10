@@ -1,7 +1,7 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @theme {
-  /* Animation pour le Marquee */
   --animate-marquee: marquee var(--duration) linear infinite;
 
   @keyframes marquee {
@@ -10,11 +10,19 @@
   }
 }
 
-/* Utilitaires pour les couleurs (Aceternity en a souvent besoin pour ses effets de gradient) */
 @layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
-    /* Tu peux ajouter d'autres variables ici si nécessaire */
+  }
+
+  * {
+    font-family: 'Inter', sans-serif;
+  }
+
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
   }
 }

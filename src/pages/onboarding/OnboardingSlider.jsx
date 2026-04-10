@@ -1,62 +1,26 @@
 import { useNavigate } from 'react-router-dom'
 import { useState, useRef } from 'react'
-import StepIndicator from '@/components/onboarding/StepIndicator'
-import SocialButtons from '@/components/onboarding/SocialButtons'
-import HabitCard from '@/components/onboarding/HabitCard'
-import ChallengeCard from '@/components/onboarding/ChallengeCard'
-import HabitRow from '@/components/onboarding/HabitRow'
 
 const slides = [
     {
         id: 0,
-        title: 'Crée de\nbonnes habitudes',
+        title: 'CRÉE DE\nBONNES\nHABITUDES',
         desc: 'Change ta vie en ajoutant progressivement de nouvelles habitudes saines.',
+        image: 'https://images.unsplash.com/photo-1536924940846-227afb31e2a5?w=1200&q=80',
     },
     {
         id: 1,
-        title: 'Suis ta\nprogression',
-        desc: 'Chaque jour tu te rapproches un peu plus de ton objectif. Lâche rien !',
+        title: 'SUIS TA\nPROGRESSION',
+        desc: 'Chaque jour tu te rapproches un peu plus de ton objectif. Lâche rien.',
+        image: 'https://images.unsplash.com/photo-1523264653568-d3d4032d1476?w=1200&q=80',
     },
     {
         id: 2,
-        title: 'Reste fort\nensemble',
+        title: 'RESTE FORT\nENSEMBLE',
         desc: 'Rejoins des challenges avec tes amis et motivez-vous mutuellement.',
+        image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80',
     },
 ]
-
-const habits = [
-    { icon: '💧', name: 'Drink the water', progress: '500/2000 ML', done: false },
-    { icon: '🚶', name: 'Walk', progress: '0/10000 STEPS', done: false },
-    { icon: '🧘', name: 'Meditate', progress: '30/30 MIN', done: true },
-]
-
-function Illustration({ index }) {
-    if (index === 0) return (
-        <div className="relative w-full max-w-sm h-80 lg:h-96 mt-12 lg:mt-0">
-            <div className="absolute top-0 right-0"><HabitCard /></div>
-            <div className="absolute top-28 left-0"><HabitCard /></div>
-            <div className="absolute bottom-0 right-8"><HabitCard /></div>
-        </div>
-    )
-    if (index === 1) return (
-        <div className="flex flex-col gap-3 w-full max-w-sm mt-12 lg:mt-0">
-            <p className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.6)' }}>Challenges</p>
-            <ChallengeCard />
-            <p className="text-xs font-semibold mt-2" style={{ color: 'rgba(255,255,255,0.6)' }}>Habits</p>
-            {habits.map((h) => <HabitRow key={h.name} {...h} />)}
-        </div>
-    )
-    if (index === 2) return (
-        <div className="relative w-full max-w-sm h-80 lg:h-96 mt-12 lg:mt-0 flex items-center justify-center">
-            <div
-                className="w-48 h-48 rounded-full flex items-center justify-center text-6xl"
-                style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)' }}
-            >
-                🏆
-            </div>
-        </div>
-    )
-}
 
 export default function OnboardingSlider() {
     const navigate = useNavigate()
@@ -68,14 +32,9 @@ export default function OnboardingSlider() {
         else navigate('/auth')
     }
 
-    const prev = () => {
-        if (current > 0) setCurrent(current - 1)
-    }
+    const prev = () => { if (current > 0) setCurrent(current - 1) }
 
-    const handleTouchStart = (e) => {
-        touchStartX.current = e.touches[0].clientX
-    }
-
+    const handleTouchStart = (e) => { touchStartX.current = e.touches[0].clientX }
     const handleTouchEnd = (e) => {
         if (touchStartX.current === null) return
         const diff = touchStartX.current - e.changedTouches[0].clientX
@@ -88,84 +47,146 @@ export default function OnboardingSlider() {
 
     return (
         <div
-            className="flex min-h-screen w-full"
-            style={{ background: 'linear-gradient(160deg, #1A4B8C 0%, #3A81C2 100%)' }}
+            className="flex min-h-screen w-full relative overflow-hidden"
+            style={{ background: '#0A0A0A' }}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
         >
-            <div className="flex flex-col lg:flex-row w-full">
+            {/* Image plein écran */}
+            <div className="absolute inset-0 z-0">
+                <img
+                    key={current}
+                    src={slide.image}
+                    alt={slide.title}
+                    className="w-full h-full object-cover"
+                    style={{
+                        opacity: 0.55,
+                        filter: 'contrast(1.1) saturate(0.7) grayscale(0.15)',
+                        animation: 'fadeImg 0.6s ease',
+                    }}
+                />
+                <div
+                    className="absolute inset-0"
+                    style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0.1) 0%, rgba(10,10,10,0.98) 60%)' }}
+                />
+                <div
+                    className="absolute inset-0"
+                    style={{ background: 'linear-gradient(135deg, rgba(180,100,200,0.06) 0%, rgba(100,130,255,0.06) 100%)' }}
+                />
+                <div
+                    className="absolute inset-0"
+                    style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E")`,
+                        backgroundRepeat: 'repeat',
+                        backgroundSize: '150px',
+                        opacity: 0.35,
+                    }}
+                />
+            </div>
 
-                {/* Colonne gauche — illustration */}
-                <div className="flex-1 lg:w-1/2 relative min-h-64 lg:min-h-screen flex items-center justify-center p-8">
-                    <button
-                        onClick={() => navigate('/auth')}
-                        className="absolute top-6 right-6 text-sm font-medium lg:hidden z-20"
-                        style={{ color: 'rgba(255,255,255,0.6)' }}
+            <div className="relative z-10 flex flex-col lg:flex-row w-full">
+                <div className="flex-1 lg:hidden" />
+                <div className="hidden lg:flex lg:w-1/2 lg:ml-auto" />
+
+                {/* Contenu */}
+                <div className="w-full lg:w-1/2 flex flex-col justify-end lg:justify-center px-8 lg:px-16 pb-12 lg:py-16 gap-6">
+
+                    {/* Header */}
+                    <span
+                        className="text-xs font-bold"
+                        style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '5px', fontFamily: 'Georgia, serif' }}
                     >
-                        Passer
-                    </button>
+                        TSUYA
+                    </span>
 
-                    <div
-                        key={current}
-                        style={{ animation: 'fadeIn 0.3s ease' }}
-                        className="w-full flex items-center justify-center"
-                    >
-                        <Illustration index={current} />
-                    </div>
-                </div>
-
-                {/* Colonne droite — texte + boutons */}
-                <div className="lg:w-1/2 flex flex-col justify-end lg:justify-center px-8 lg:px-16 pb-10 lg:py-16 gap-5">
-
-                    <button
-                        onClick={() => navigate('/auth')}
-                        className="hidden lg:block text-sm font-medium self-end mb-4"
-                        style={{ color: 'rgba(255,255,255,0.6)' }}
-                    >
-                        Passer
-                    </button>
-
-                    <div
-                        key={current}
-                        style={{ animation: 'fadeIn 0.3s ease' }}
-                        className="flex flex-col gap-3"
-                    >
-                        <h2 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
+                    {/* Titre animé */}
+                    <div key={current} style={{ animation: 'fadeUp 0.4s ease' }}>
+                        <h2
+                            className="text-4xl lg:text-6xl font-bold text-white leading-none"
+                            style={{ fontFamily: 'Georgia, serif' }}
+                        >
                             {slide.title.split('\n').map((line, i) => (
-                                <span key={i}>{line}{i === 0 && <br />}</span>
+                                <span key={i} className="block">{line}</span>
                             ))}
                         </h2>
-                        <p className="text-sm lg:text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <p className="text-sm mt-4 leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)', letterSpacing: '0.3px' }}>
                             {slide.desc}
                         </p>
                     </div>
 
-                    <StepIndicator
-                        total={slides.length}
-                        current={current}
-                        onChange={setCurrent}
-                    />
+                    {/* Progress lines */}
+                    <div className="flex gap-1.5">
+                        {slides.map((_, i) => (
+                            <div
+                                key={i}
+                                onClick={() => setCurrent(i)}
+                                style={{
+                                    height: 2,
+                                    flex: i === current ? 3 : 1,
+                                    background: i === current ? '#C0C0C0' : 'rgba(255,255,255,0.15)',
+                                    transition: 'all 0.4s',
+                                    cursor: 'pointer',
+                                    borderRadius: 99,
+                                }}
+                            />
+                        ))}
+                    </div>
 
+                    {/* Bouton continuer */}
                     <button
                         onClick={next}
-                        className="w-full py-4 rounded-full text-base font-semibold flex items-center justify-center gap-2"
-                        style={{ background: '#fff', color: '#1A4B8C' }}
+                        className="w-full py-4 rounded-2xl text-xs font-semibold"
+                        style={{
+                            background: '#fff',
+                            color: '#0A0A0A',
+                            letterSpacing: '4px',
+                        }}
                     >
-                        {current < slides.length - 1 ? <><span>→</span> Continuer</> : <><span>→</span> Commencer</>}
+                        {current < slides.length - 1 ? 'CONTINUER' : 'COMMENCER'}
                     </button>
 
-                    <SocialButtons />
+                    {/* Boutons sociaux */}
+                    <div className="flex gap-2">
+                        {[
+                            { label: 'APPLE', icon: '🍎' },
+                            { label: 'GOOGLE', icon: 'G' },
+                            { label: 'FACEBOOK', icon: 'f' },
+                        ].map((s) => (
+                            <button
+                                key={s.label}
+                                className="flex-1 py-3 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5"
+                                style={{
+                                    background: 'transparent',
+                                    color: 'rgba(255,255,255,0.4)',
+                                    border: '1px solid rgba(255,255,255,0.1)',
+                                    letterSpacing: '1px',
+                                }}
+                            >
+                                <span>{s.icon}</span>
+                                <span className="hidden sm:inline">{s.label}</span>
+                            </button>
+                        ))}
+                    </div>
 
-                    <p className="text-center text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                        En continuant vous acceptez les CGU & Politique de confidentialité
-                    </p>
+                    <button
+                        onClick={() => navigate('/auth')}
+                        className="text-xs text-center"
+                        style={{ color: 'rgba(255,255,255,0.2)', letterSpacing: '2px' }}
+                    >
+                        PASSER
+                    </button>
+
                 </div>
             </div>
 
             <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateX(20px); }
-          to { opacity: 1; transform: translateX(0); }
+        @keyframes fadeImg {
+          from { opacity: 0; }
+          to { opacity: 0.55; }
+        }
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(16px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
         </div>
