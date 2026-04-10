@@ -34,6 +34,7 @@ export default function HabitList({ habits, done = [], onToggle }) {
                     {habits.map(h => (
                         <HabitItem
                             key={h.id}
+                            id={h.id}
                             emoji={h.emoji || '⭐'}
                             label={h.label}
                             done={done.includes(h.id)}

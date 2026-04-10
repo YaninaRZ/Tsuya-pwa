@@ -64,6 +64,12 @@ export const saveHabits = async (habits) => {
       user_id: userId,
       label: h.label,
       emoji: h.emoji,
+      description: h.description,
+      frequency: h.frequency,
+      target_value: h.target_value,
+      target_unit: h.target_unit,
+      image_url: h.image_url,
+      color: h.color,
     })),
   );
   return { error };

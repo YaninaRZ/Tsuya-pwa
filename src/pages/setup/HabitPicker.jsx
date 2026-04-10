@@ -1,24 +1,23 @@
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { saveHabits } from '@/lib/auth'
-
-const habits = [
-    { id: 'water', emoji: '💧', label: 'DRINK WATER' },
-    { id: 'run', emoji: '🏃‍♀️', label: 'RUN' },
-    { id: 'read', emoji: '📖', label: 'READ BOOKS' },
-    { id: 'meditate', emoji: '🧘‍♀️', label: 'MEDITATE' },
-    { id: 'study', emoji: '👨‍💻', label: 'STUDY' },
-    { id: 'journal', emoji: '📕', label: 'JOURNAL' },
-    { id: 'eat', emoji: '🌿', label: 'EAT HEALTHY' },
-    { id: 'sleep', emoji: '😴', label: 'SLEEP EARLY' },
-    { id: 'gym', emoji: '🏋️', label: 'GYM' },
-    { id: 'walk', emoji: '🚶', label: 'WALK 10K' },
-]
+import { supabase } from '@/lib/supabase'
 
 export default function HabitPicker() {
     const navigate = useNavigate()
+    const [habits, setHabits] = useState([])
     const [selected, setSelected] = useState([])
     const [loading, setLoading] = useState(false)
+    const [fetching, setFetching] = useState(true)
+
+    useEffect(() => {
+        const loadTemplates = async () => {
+            const { data } = await supabase.from('habit_templates').select('*')
+            setHabits(data || [])
+            setFetching(false)
+        }
+        loadTemplates()
+    }, [])
 
     const toggle = (id) =>
         setSelected(prev => prev.includes(id) ? prev.filter(h => h !== id) : [...prev, id])
@@ -33,12 +32,17 @@ export default function HabitPicker() {
         navigate('/home')
     }
 
+    if (fetching) {
+        return (
+            <div className="flex items-center justify-center min-h-screen" style={{ background: '#0A0A0A' }}>
+                <div className="w-6 h-6 rounded-full border-2 animate-spin" style={{ borderColor: '#C0C0C0', borderTopColor: 'transparent' }} />
+            </div>
+        )
+    }
+
     return (
-        <div
-            className="flex w-full relative overflow-hidden"
-            style={{ minHeight: '100vh', background: '#0A0A0A' }}
-        >
-            {/* Grain */}
+        <div className="flex w-full relative overflow-hidden" style={{ minHeight: '100vh', background: '#0A0A0A' }}>
+
             <div
                 className="absolute inset-0 z-0"
                 style={{
@@ -52,24 +56,15 @@ export default function HabitPicker() {
             <div className="relative z-10 w-full flex items-center justify-center lg:p-16">
                 <div
                     className="w-full lg:max-w-4xl lg:rounded-3xl flex flex-col h-full lg:h-auto"
-                    style={{
-                        background: 'rgba(255,255,255,0.03)',
-                        border: '1px solid rgba(255,255,255,0.08)',
-                    }}
+                    style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
                 >
-                    {/* Header */}
                     <div className="px-6 pt-8 pb-4">
                         <div className="flex gap-1.5 mb-4">
                             <div className="h-0.5 w-8 rounded-full" style={{ background: 'rgba(255,255,255,0.1)' }} />
                             <div className="h-0.5 w-8 rounded-full" style={{ background: '#C0C0C0' }} />
                         </div>
-                        <span className="text-xs" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '3px' }}>
-                            ÉTAPE 2 / 2
-                        </span>
-                        <h2
-                            className="text-xl lg:text-2xl font-bold text-white mt-2"
-                            style={{ fontFamily: 'Georgia, serif' }}
-                        >
+                        <span className="text-xs" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '3px' }}>ÉTAPE 2 / 2</span>
+                        <h2 className="text-xl lg:text-2xl font-bold text-white mt-2" style={{ fontFamily: 'Georgia, serif' }}>
                             CHOISIS TES HABITUDES.
                         </h2>
                         <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.35)', letterSpacing: '1px' }}>
@@ -77,7 +72,6 @@ export default function HabitPicker() {
                         </p>
                     </div>
 
-                    {/* Compteur */}
                     {selected.length > 0 && (
                         <div
                             className="mx-6 mb-2 flex items-center gap-2 px-4 py-2 rounded-xl"
@@ -90,7 +84,6 @@ export default function HabitPicker() {
                         </div>
                     )}
 
-                    {/* Grille */}
                     <div className="px-6 overflow-y-auto" style={{ flex: 1 }}>
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 pb-4">
                             {habits.map((h) => {
@@ -99,37 +92,47 @@ export default function HabitPicker() {
                                     <button
                                         key={h.id}
                                         onClick={() => toggle(h.id)}
-                                        className="flex flex-col items-center justify-center gap-3 py-6 px-4 rounded-2xl transition-all"
+                                        className="flex flex-col items-start justify-end rounded-2xl overflow-hidden transition-all relative"
                                         style={{
-                                            background: isSelected ? 'rgba(192,192,192,0.1)' : 'rgba(255,255,255,0.03)',
-                                            border: isSelected ? '1px solid rgba(192,192,192,0.35)' : '1px solid rgba(255,255,255,0.07)',
+                                            height: 160,
+                                            border: isSelected ? '1px solid rgba(192,192,192,0.5)' : '1px solid rgba(255,255,255,0.07)',
                                         }}
                                     >
-                                        <span style={{ fontSize: 32 }}>{h.emoji}</span>
-                                        <span
-                                            className="text-xs font-medium text-center"
-                                            style={{
-                                                color: isSelected ? '#fff' : 'rgba(255,255,255,0.4)',
-                                                letterSpacing: '1px',
-                                            }}
-                                        >
-                                            {h.label}
-                                        </span>
+                                        {h.image_url && (
+                                            <img
+                                                src={h.image_url}
+                                                alt={h.label}
+                                                className="absolute inset-0 w-full h-full object-cover"
+                                                style={{ opacity: isSelected ? 0.5 : 0.3, filter: 'grayscale(0.3) contrast(1.1)' }}
+                                            />
+                                        )}
+                                        <div
+                                            className="absolute inset-0"
+                                            style={{ background: 'linear-gradient(to bottom, transparent 20%, rgba(10,10,10,0.9) 100%)' }}
+                                        />
                                         {isSelected && (
                                             <div
-                                                className="w-4 h-4 rounded-full flex items-center justify-center"
+                                                className="absolute top-3 right-3 w-5 h-5 rounded-full flex items-center justify-center z-10"
                                                 style={{ background: '#C0C0C0' }}
                                             >
                                                 <span style={{ color: '#0A0A0A', fontSize: 9 }}>✓</span>
                                             </div>
                                         )}
+                                        <div className="relative z-10 p-3 flex flex-col gap-1">
+                                            <span style={{ fontSize: 24 }}>{h.emoji}</span>
+                                            <span className="text-xs font-medium text-white text-left" style={{ letterSpacing: '1px' }}>
+                                                {h.label.toUpperCase()}
+                                            </span>
+                                            <span className="text-left leading-tight" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 10 }}>
+                                                {h.target_value} {h.target_unit} / {h.frequency}
+                                            </span>
+                                        </div>
                                     </button>
                                 )
                             })}
                         </div>
                     </div>
 
-                    {/* Bouton */}
                     <div className="p-6 pt-3">
                         <button
                             onClick={handleSubmit}

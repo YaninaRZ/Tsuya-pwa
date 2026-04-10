@@ -9,6 +9,7 @@ import ForgotPassword from '@/pages/auth/ForgotPassword'
 import ResetPassword from '@/pages/auth/ResetPassword'
 import CGU from '@/pages/legal/CGU'
 import PrivacyPolicy from '@/pages/legal/PrivacyPolicy'
+import HabitDetail from '@/pages/habits/HabitDetail'
 export default function App() {
   return (
     <div className="min-h-screen">
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/cgu" element={<CGU />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/habits/:id" element={<HabitDetail />} />
       </Routes>
     </div>
   )
