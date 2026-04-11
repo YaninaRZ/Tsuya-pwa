@@ -72,15 +72,7 @@ export default function HabitDetail() {
                     ←
                 </button>
 
-                {/* Durée/objectif en haut à droite */}
-                <div
-                    className="absolute top-12 right-6 px-3 py-1 rounded-lg"
-                    style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.15)' }}
-                >
-                    <span className="text-xs text-white" style={{ letterSpacing: '1px' }}>
-                        {habit.target_value} {habit.target_unit?.toUpperCase()}
-                    </span>
-                </div>
+
             </div>
 
             {/* Contenu */}
@@ -112,22 +104,11 @@ export default function HabitDetail() {
                             {habit.frequency === 'daily' ? 'Quotidien' : 'Hebdomadaire'}
                         </span>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <span style={{ color: habit.color || '#C0C0C0', fontSize: 14 }}>◆</span>
-                        <span className="text-sm" style={{ color: 'rgba(255,255,255,0.6)', letterSpacing: '1px' }}>
-                            Objectif : {habit.target_value} {habit.target_unit}
-                        </span>
-                    </div>
+
                 </div>
 
                 {/* Boutons d'action */}
-                <div className="flex gap-3">
-                    <button
-                        className="flex-1 py-3.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2"
-                        style={{ background: '#fff', color: '#0A0A0A', letterSpacing: '1px' }}
-                    >
-                        ▶ COMMENCER
-                    </button>
+                <div className="flex gap-2">
                     <button
                         className="flex-1 py-3.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2"
                         style={{
@@ -139,7 +120,20 @@ export default function HabitDetail() {
                     >
                         + CALENDRIER
                     </button>
+                    <button
+                        onClick={() => navigate(`/habits/${id}/edit`)}
+                        className="flex-1 py-3.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2"
+                        style={{
+                            background: 'transparent',
+                            color: '#fff',
+                            border: '1px solid rgba(255,255,255,0.2)',
+                            letterSpacing: '1px',
+                        }}
+                    >
+                        ✎ ÉDITER
+                    </button>
                 </div>
+
 
                 {/* Description */}
                 {habit.description && (
@@ -156,31 +150,7 @@ export default function HabitDetail() {
                     </div>
                 )}
 
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-3">
-                    {[
-                        { label: 'FRÉQUENCE', value: habit.frequency === 'daily' ? 'DAILY' : 'WEEKLY' },
-                        { label: 'OBJECTIF', value: `${habit.target_value || 1}` },
-                        { label: 'UNITÉ', value: (habit.target_unit || 'FOIS').toUpperCase() },
-                    ].map((s) => (
-                        <div
-                            key={s.label}
-                            className="flex flex-col gap-1 p-4 rounded-2xl"
-                            style={{
-                                background: 'rgba(255,255,255,0.04)',
-                                border: '1px solid rgba(255,255,255,0.07)',
-                                backdropFilter: 'blur(12px)',
-                            }}
-                        >
-                            <span className="text-xs" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '1px' }}>
-                                {s.label}
-                            </span>
-                            <span className="text-lg font-bold text-white" style={{ letterSpacing: '1px' }}>
-                                {s.value}
-                            </span>
-                        </div>
-                    ))}
-                </div>
+
 
             </div>
         </div>
