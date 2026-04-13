@@ -15,9 +15,19 @@ export default function Home() {
     const [habits, setHabits] = useState([])
     const [loading, setLoading] = useState(true)
     const [done, setDone] = useState([])
+    const [toast, setToast] = useState(null)
 
     const toggleDone = (id) =>
         setDone(prev => prev.includes(id) ? prev.filter(h => h !== id) : [...prev, id])
+
+    useEffect(() => {
+        const success = localStorage.getItem('calendar_success')
+        if (success) {
+            setToast(success)
+            localStorage.removeItem('calendar_success')
+            setTimeout(() => setToast(null), 4000)
+        }
+    }, [])
 
     useEffect(() => {
         const init = async () => {
@@ -40,7 +50,33 @@ export default function Home() {
     }
 
     return (
-        <div className="min-h-screen" style={{ background: '#111111' }}>
+        <div className="min-h-screen relative" style={{ background: '#111111' }}>
+            {toast && (
+                <div
+                    className="fixed top-6 left-1/2 z-50 flex items-center gap-3 px-5 py-4 rounded-2xl"
+                    style={{
+                        transform: 'translateX(-50%)',
+                        background: 'rgba(255,255,255,0.95)',
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+                        animation: 'slideDown 0.3s ease',
+                        maxWidth: '90vw',
+                        whiteSpace: 'nowrap',
+                    }}
+                >
+                    <span style={{ fontSize: 20 }}>📅</span>
+                    <div>
+                        <p className="text-xs font-bold" style={{ color: '#0A0A0A', letterSpacing: '1px' }}>
+                            AJOUTÉ AU CALENDRIER
+                        </p>
+                        <p className="text-xs mt-0.5" style={{ color: '#666' }}>
+                            {toast} a été ajouté à Google Calendar
+                        </p>
+                    </div>
+                    <button onClick={() => setToast(null)} className="ml-2 text-xs" style={{ color: '#aaa' }}>
+                        ✕
+                    </button>
+                </div>
+            )}
             <BottomNav />
             <div className="lg:ml-64">
                 <div className="flex flex-col gap-6 pb-28 lg:pb-10 lg:max-w-3xl lg:mx-auto lg:px-8 lg:pt-8">

@@ -11,7 +11,8 @@ import CGU from '@/pages/legal/CGU'
 import PrivacyPolicy from '@/pages/legal/PrivacyPolicy'
 import HabitDetail from '@/pages/habits/HabitDetail'
 import HabitEdit from '@/pages/habits/HabitEdit'
-
+import GoogleCallback from '@/pages/auth/GoogleCallback'
+import HabitCreate from '@/pages/habits/HabitCreate'
 export default function App() {
   return (
     <div className="min-h-screen">
@@ -29,6 +30,8 @@ export default function App() {
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/habits/:id" element={<HabitDetail />} />
         <Route path="/habits/:id/edit" element={<HabitEdit />} />
+        <Route path="/auth/google/callback" element={<GoogleCallback />} />
+        <Route path="/create-habit" element={<HabitCreate />} />
       </Routes>
     </div>
   )
