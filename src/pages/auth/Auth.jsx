@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { signIn, signUp } from '@/lib/auth'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Separator } from '@/components/ui/separator'
+import { Badge } from '@/components/ui/badge'
 
 const AppleIcon = () => (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -23,29 +28,7 @@ const FacebookIcon = () => (
     </svg>
 )
 
-function Input({ label, type = 'text', placeholder, value, onChange }) {
-    return (
-        <div className="flex flex-col gap-2">
-            <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.4)', letterSpacing: '2px' }}>
-                {label.toUpperCase()}
-            </label>
-            <input
-                type={type}
-                placeholder={placeholder}
-                value={value}
-                onChange={onChange}
-                className="w-full py-3 text-sm outline-none bg-transparent"
-                style={{
-                    color: '#fff',
-                    borderBottom: '1px solid rgba(255,255,255,0.15)',
-                    transition: 'border 0.2s',
-                }}
-                onFocus={e => e.target.style.borderBottomColor = '#C0C0C0'}
-                onBlur={e => e.target.style.borderBottomColor = 'rgba(255,255,255,0.15)'}
-            />
-        </div>
-    )
-}
+const GRAIN = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E")`
 
 export default function Auth() {
     const navigate = useNavigate()
@@ -72,19 +55,11 @@ export default function Auth() {
     }
 
     return (
-        <div
-            className="flex w-full overflow-hidden relative"
-            style={{ background: '#0A0A0A', height: '100vh' }}
-        >
+        <div className="flex w-full overflow-hidden relative" style={{ background: '#0A0A0A', height: '100vh' }}>
             {/* Grain */}
             <div
-                className="absolute inset-0 z-0"
-                style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E")`,
-                    backgroundRepeat: 'repeat',
-                    backgroundSize: '150px',
-                    opacity: 0.3,
-                }}
+                className="absolute inset-0 z-0 pointer-events-none"
+                style={{ backgroundImage: GRAIN, backgroundRepeat: 'repeat', backgroundSize: '150px', opacity: 0.3 }}
             />
 
             <div className="relative z-10 flex flex-col lg:flex-row w-full h-full">
@@ -107,13 +82,7 @@ export default function Auth() {
                         </span>
                         <div className="flex gap-2">
                             {['🔥 Streaks', '⭐ XP', '🏆 Niveaux'].map((item) => (
-                                <span
-                                    key={item}
-                                    className="px-3 py-1 rounded-lg text-xs"
-                                    style={{ color: '#C0C0C0', border: '1px solid rgba(192,192,192,0.3)', letterSpacing: '1px' }}
-                                >
-                                    {item}
-                                </span>
+                                <Badge key={item} variant="silver">{item}</Badge>
                             ))}
                         </div>
                     </div>
@@ -127,25 +96,19 @@ export default function Auth() {
                         <span className="text-lg font-bold text-white" style={{ fontFamily: 'Georgia, serif', letterSpacing: '6px' }}>
                             TSUYA
                         </span>
-                        <span
-                            className="text-xs px-2 py-1 rounded-lg"
-                            style={{ color: '#C0C0C0', border: '1px solid rgba(192,192,192,0.3)', letterSpacing: '2px' }}
-                        >
-                            VOL. 01
-                        </span>
+                        <Badge variant="silver">VOL. 01</Badge>
                     </div>
 
                     {/* Tabs */}
-                    <div className="flex gap-8 mb-10">
+                    <div className="flex gap-8 mb-10 border-b border-white/[0.08]">
                         {['login', 'register'].map((t) => (
                             <button
                                 key={t}
                                 onClick={() => { setTab(t); setError(null) }}
-                                className="text-sm font-medium pb-2 transition-all"
+                                className="pb-3 text-sm font-medium -mb-px transition-colors cursor-pointer tracking-widest"
                                 style={{
                                     color: tab === t ? '#fff' : 'rgba(255,255,255,0.3)',
                                     borderBottom: tab === t ? '1px solid #C0C0C0' : '1px solid transparent',
-                                    letterSpacing: '2px',
                                 }}
                             >
                                 {t === 'login' ? 'CONNEXION' : 'INSCRIPTION'}
@@ -158,17 +121,14 @@ export default function Auth() {
                         <h2 className="text-xl lg:text-2xl font-bold text-white" style={{ fontFamily: 'Georgia, serif' }}>
                             {tab === 'login' ? 'BON RETOUR.' : 'CRÉER UN COMPTE.'}
                         </h2>
-                        <p className="text-xs" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '1px' }}>
+                        <p className="text-xs text-white/30 tracking-wider">
                             {tab === 'login' ? 'CONNECTE-TOI POUR CONTINUER' : 'REJOINS TSUYA'}
                         </p>
                     </div>
 
                     {/* Erreur */}
                     {error && (
-                        <div
-                            className="px-4 py-3 mb-4 rounded-xl text-xs"
-                            style={{ background: 'rgba(220,38,38,0.1)', color: '#f87171', border: '1px solid rgba(220,38,38,0.2)', letterSpacing: '1px' }}
-                        >
+                        <div className="px-4 py-3 mb-4 rounded-xl text-xs tracking-wider bg-red-500/10 text-red-400 border border-red-500/20">
                             {error.toUpperCase()}
                         </div>
                     )}
@@ -181,44 +141,50 @@ export default function Auth() {
                             opacity: tab === 'register' ? 1 : 0,
                             transition: 'max-height 0.3s ease, opacity 0.3s ease',
                         }}>
-                            <Input label="Nom" placeholder="Ton prénom" value={form.name} onChange={update('name')} />
+                            <div className="flex flex-col gap-2">
+                                <Label>Nom</Label>
+                                <Input placeholder="Ton prénom" value={form.name} onChange={update('name')} />
+                            </div>
                         </div>
-                        <Input label="Email" type="email" placeholder="ton@email.com" value={form.email} onChange={update('email')} />
-                        <Input label="Mot de passe" type="password" placeholder="••••••••" value={form.password} onChange={update('password')} />
+                        <div className="flex flex-col gap-2">
+                            <Label>Email</Label>
+                            <Input type="email" placeholder="ton@email.com" value={form.email} onChange={update('email')} />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <Label>Mot de passe</Label>
+                            <Input type="password" placeholder="••••••••" value={form.password} onChange={update('password')} />
+                        </div>
                         {tab === 'login' && (
-                            <button
+                            <Button
+                                variant="link"
+                                size="sm"
+                                className="self-end p-0 h-auto"
                                 onClick={() => navigate('/forgot-password')}
-                                className="text-xs self-end"
-                                style={{ color: '#C0C0C0', letterSpacing: '1px' }}
                             >
                                 MOT DE PASSE OUBLIÉ ?
-                            </button>
+                            </Button>
                         )}
                     </div>
 
                     {/* Bouton principal */}
-                    <button
+                    <Button
                         onClick={handleSubmit}
                         disabled={loading}
-                        className="w-full py-4 rounded-2xl text-xs font-semibold flex items-center justify-center gap-2 mb-6"
-                        style={{
-                            background: loading ? 'rgba(255,255,255,0.5)' : '#fff',
-                            color: '#0A0A0A',
-                            letterSpacing: '3px',
-                        }}
+                        size="lg"
+                        className="w-full mb-6 tracking-[3px]"
                     >
                         {loading ? (
                             <div className="w-4 h-4 rounded-full border-2 border-black border-t-transparent animate-spin" />
                         ) : (
                             tab === 'login' ? 'SE CONNECTER' : "S'INSCRIRE"
                         )}
-                    </button>
+                    </Button>
 
                     {/* Séparateur */}
                     <div className="flex items-center gap-4 mb-6">
-                        <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.08)' }} />
-                        <span className="text-xs" style={{ color: 'rgba(255,255,255,0.2)', letterSpacing: '2px' }}>OU</span>
-                        <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.08)' }} />
+                        <Separator className="flex-1" />
+                        <span className="text-xs text-white/20 tracking-widest">OU</span>
+                        <Separator className="flex-1" />
                     </div>
 
                     {/* Boutons sociaux */}
@@ -228,29 +194,19 @@ export default function Auth() {
                             { label: 'GOOGLE', Icon: GoogleIcon },
                             { label: 'FACEBOOK', Icon: FacebookIcon },
                         ].map(({ label, Icon }) => (
-                            <button
-                                key={label}
-                                className="flex-1 py-3 rounded-xl text-xs font-medium flex items-center justify-center gap-2"
-                                style={{
-                                    background: 'transparent',
-                                    color: 'rgba(255,255,255,0.4)',
-                                    border: '1px solid rgba(255,255,255,0.1)',
-                                    letterSpacing: '1px',
-                                }}
-                            >
+                            <Button key={label} variant="outline" className="flex-1 tracking-wider">
                                 <Icon />
                                 <span className="hidden sm:inline">{label}</span>
-                            </button>
+                            </Button>
                         ))}
                     </div>
 
-                    <p className="text-center text-xs" style={{ color: 'rgba(255,255,255,0.15)', letterSpacing: '1px' }}>
+                    <p className="text-center text-xs text-white/15 tracking-wider">
                         EN CONTINUANT VOUS ACCEPTEZ LES{' '}
-                        <span onClick={() => navigate('/cgu')} style={{ color: '#C0C0C0', cursor: 'pointer' }}>CGU</span>
+                        <span onClick={() => navigate('/cgu')} className="text-[#C0C0C0] cursor-pointer">CGU</span>
                         {' '}&{' '}
-                        <span onClick={() => navigate('/privacy')} style={{ color: '#C0C0C0', cursor: 'pointer' }}>CONFIDENTIALITÉ</span>
+                        <span onClick={() => navigate('/privacy')} className="text-[#C0C0C0] cursor-pointer">CONFIDENTIALITÉ</span>
                     </p>
-
                 </div>
             </div>
         </div>

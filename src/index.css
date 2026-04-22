@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
 
 @theme {
   --animate-marquee: marquee var(--duration) linear infinite;
@@ -17,17 +17,38 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 75%;
+    --accent-foreground: 0 0% 4%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 75%;
+    --radius: 0.75rem;
   }
 
   * {
     font-family: 'Inter', sans-serif;
+    border-color: hsl(var(--border));
   }
 
   html, body, #root {
     height: 100%;
     margin: 0;
     padding: 0;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
   }
 }

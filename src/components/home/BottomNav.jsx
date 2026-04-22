@@ -1,4 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 const HomeIcon = ({ active }) => (
     <svg width="18" height="18" viewBox="0 0 24 24" fill={active ? '#fff' : 'rgba(255,255,255,0.3)'}>
@@ -55,41 +57,26 @@ export default function BottomNav() {
                 {tabs.map(({ path, label, Icon, isAdd }) => {
                     const active = location.pathname === path
                     return (
-                        <button
+                        <Button
                             key={path}
                             onClick={() => navigate(path)}
-                            className="flex items-center gap-4 px-4 py-3 rounded-2xl transition-all text-left"
-                            style={{
-                                background: isAdd
-                                    ? '#C0C0C0'
-                                    : active ? 'rgba(255,255,255,0.08)' : 'transparent',
-                            }}
-                        >
-                            {isAdd ? (
-                                <>
-                                    <Icon />
-                                    <span className="text-xs font-semibold" style={{ color: '#111111', letterSpacing: '2px' }}>
-                                        {label}
-                                    </span>
-                                </>
-                            ) : (
-                                <>
-                                    <Icon active={active} />
-                                    <span
-                                        className="text-xs font-medium"
-                                        style={{ color: active ? '#fff' : 'rgba(255,255,255,0.3)', letterSpacing: '2px' }}
-                                    >
-                                        {label}
-                                    </span>
-                                    {active && (
-                                        <div
-                                            className="ml-auto w-1.5 h-1.5 rounded-full"
-                                            style={{ background: '#C0C0C0' }}
-                                        />
-                                    )}
-                                </>
+                            variant={isAdd ? 'silver' : active ? 'secondary' : 'ghost'}
+                            className={cn(
+                                'w-full justify-start gap-4 px-4 rounded-2xl',
+                                !isAdd && 'tracking-widest',
                             )}
-                        </button>
+                        >
+                            <Icon active={active} />
+                            <span className={cn(
+                                'text-xs font-medium tracking-widest',
+                                isAdd ? 'text-[#111]' : active ? 'text-white' : 'text-white/30'
+                            )}>
+                                {label}
+                            </span>
+                            {!isAdd && active && (
+                                <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#C0C0C0]" />
+                            )}
+                        </Button>
                     )
                 })}
             </aside>
@@ -109,27 +96,24 @@ export default function BottomNav() {
                         <button
                             key={path}
                             onClick={() => navigate(path)}
-                            className="flex flex-col items-center gap-1 flex-1"
+                            className="flex flex-col items-center gap-1 flex-1 cursor-pointer"
                         >
                             {isAdd ? (
-                                <div
-                                    className="w-12 h-12 flex items-center justify-center rounded-2xl"
-                                    style={{ background: '#C0C0C0' }}
-                                >
+                                <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-[#C0C0C0]">
                                     <Icon />
                                 </div>
                             ) : (
                                 <>
-                                    <div
-                                        className="w-8 h-8 flex items-center justify-center rounded-xl transition-all"
-                                        style={{ background: active ? 'rgba(255,255,255,0.08)' : 'transparent' }}
-                                    >
+                                    <div className={cn(
+                                        'w-8 h-8 flex items-center justify-center rounded-xl transition-all',
+                                        active ? 'bg-white/[0.08]' : 'bg-transparent'
+                                    )}>
                                         <Icon active={active} />
                                     </div>
                                     <span
+                                        className="tracking-wider"
                                         style={{
                                             color: active ? '#fff' : 'rgba(255,255,255,0.3)',
-                                            letterSpacing: '1px',
                                             fontSize: 9,
                                         }}
                                     >

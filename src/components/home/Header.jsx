@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export default function Header({ user }) {
     const navigate = useNavigate()
@@ -8,67 +10,44 @@ export default function Header({ user }) {
         <div className="flex flex-col px-5 pt-8 gap-4">
             {/* Top row */}
             <div className="flex items-center justify-between">
-                <span
-                    className="text-sm font-bold text-white"
-                    style={{ fontFamily: 'Georgia, serif', letterSpacing: '4px' }}
-                >
+                <span className="text-sm font-bold text-white" style={{ fontFamily: 'Georgia, serif', letterSpacing: '4px' }}>
                     TSUYA
                 </span>
                 <div className="flex items-center gap-3">
-                    <button
-                        className="w-9 h-9 rounded-xl flex items-center justify-center relative"
-                        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
-                    >
+                    <Button variant="outline" size="icon" className="rounded-xl relative">
                         <span style={{ fontSize: 16 }}>🔔</span>
-                        <div className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full" style={{ background: '#C0C0C0' }} />
-                    </button>
-                    <button
+                        <div className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#C0C0C0]" />
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="icon"
                         onClick={() => navigate('/profile')}
-                        className="w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold"
-                        style={{
-                            background: 'rgba(192,192,192,0.15)',
-                            border: '1px solid rgba(192,192,192,0.3)',
-                            color: '#C0C0C0',
-                            letterSpacing: '1px',
-                        }}
+                        className="rounded-xl text-sm font-bold text-[#C0C0C0] border-[#C0C0C0]/30 bg-[#C0C0C0]/15"
+                        style={{ letterSpacing: '1px' }}
                     >
                         {name.charAt(0).toUpperCase()}
-                    </button>
+                    </Button>
                 </div>
             </div>
 
             {/* Greeting */}
             <div>
-                <p className="text-xs mb-1" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '2px' }}>
-                    BONJOUR,
-                </p>
-                <h1
-                    className="text-3xl font-bold text-white"
-                    style={{ fontFamily: 'Georgia, serif' }}
-                >
+                <p className="text-xs mb-1 text-white/30 tracking-widest">BONJOUR,</p>
+                <h1 className="text-3xl font-bold text-white" style={{ fontFamily: 'Georgia, serif' }}>
                     {name.toUpperCase()}.
                 </h1>
-                <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.35)', letterSpacing: '1px' }}>
+                <p className="text-sm mt-1 text-white/35 tracking-wider">
                     WHAT WILL YOU ACCOMPLISH TODAY?
                 </p>
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-6 border-b" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
-                {['TODAY', 'CLUBS'].map((t, i) => (
-                    <button
-                        key={t}
-                        className="pb-3 text-xs font-medium"
-                        style={{
-                            color: i === 0 ? '#fff' : 'rgba(255,255,255,0.3)',
-                            borderBottom: i === 0 ? '1px solid #C0C0C0' : '1px solid transparent',
-                            letterSpacing: '2px',
-                        }}
-                    >
-                        {t}
-                    </button>
-                ))}
-            </div>
+            <Tabs defaultValue="today">
+                <TabsList>
+                    <TabsTrigger value="today">TODAY</TabsTrigger>
+                    <TabsTrigger value="clubs">CLUBS</TabsTrigger>
+                </TabsList>
+            </Tabs>
         </div>
     )
 }
